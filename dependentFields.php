@@ -11,15 +11,15 @@
  */
 
 function mm_ddDependentFields($params){
-	//Defaults
+	// Defaults
 	$params = \DDTools\ObjectTools::extend([
 		'objects' => [
 			(object) [
-				//Required (null means “not set”)
+				// Required (null means “not set”)
 	 			'masterFieldName' => null,
 	 			'masterFieldValue' => null,
 				'dependentFieldName' => null,
-				//Optional
+				// Optional
 				'roles' => '',
 				'templates' => '',
 			],
@@ -28,13 +28,13 @@ function mm_ddDependentFields($params){
 	]);
 	
 	if (
-		//Required parameters
+		// Required parameters
 		(
 			is_null($params->masterFieldName) ||
 			is_null($params->masterFieldValue) ||
 			is_null($params->dependentFieldName)
 		) ||
-		//Roles and templates
+		// Roles and templates
 		!useThisRule(
 			$params->roles,
 			$params->templates
@@ -46,18 +46,18 @@ function mm_ddDependentFields($params){
 	global $modx;
 	
 	if ($modx->Event->name == 'OnDocFormPrerender'){
-		//Including of the main JS file
+		// Including of the main JS file
 		$output = includeJsCss(
 			$modx->config['site_url'] . 'assets/plugins/managermanager/widgets/dependentFields/jQuery.ddMM.mm_ddDependentFields.js',
 			'html',
 			'jQuery.ddMM.mm_ddDependentFields',
-			'1.0'
+			'1.0.1'
 		);
 		
 		$modx->Event->output($output);
 	}elseif ($modx->Event->name == 'OnDocFormRender'){
 		$matchedFields = getTplMatchedFields(
-			//Fields
+			// Fields
 			[
 				$params->masterFieldName,
 				$params->dependentFieldName,
@@ -66,14 +66,14 @@ function mm_ddDependentFields($params){
 		
 		if (
 			$matchedFields === false ||
-			//We always need 2 fields
+			// We always need 2 fields
 			count($matchedFields) != 2
 		){
 			return;
 		}
 		
 		$output = '
-//ManagerManager.mm_ddDependentFields
+// ManagerManager.mm_ddDependentFields
 $j.ddMM.mm_ddDependentFields({
 	masterFieldName: "' . $params->masterFieldName . '",
 	masterFieldValue: "' . $params->masterFieldValue . '",

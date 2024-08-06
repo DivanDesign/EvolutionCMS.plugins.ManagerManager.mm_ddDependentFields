@@ -1,8 +1,8 @@
 /**
  * jQuery.ddMM.mm_ddDependentFields
- * @version 1.0 (2024-01-04)
+ * @version 1.0.1 (2024-08-06)
  * 
- * @copyright 2024 Ronef {@link https://Ronef.ru }
+ * @copyright 2024 https://Ronef.me
  */
 
 (function($){
@@ -14,11 +14,11 @@ $.ddMM.mm_ddDependentFields = function(params){
 		dependentParentWithSpl = $j.ddMM.getFieldParentWithSplElements({fieldName: params.dependentFieldName}),
 		isDependentUsed = false,
 		tuneDependent = function(){
-			//Show Dependent
+			// Show Dependent
 			if (theMasterField.getValue() == params.masterFieldValue){
 				dependentParentWithSpl.$both.ddSlideDown();
 				isDependentUsed = true;
-			//Hide Dependent
+			// Hide Dependent
 			}else{
 				dependentParentWithSpl.$both.ddSlideUp();
 				isDependentUsed = false;
@@ -26,20 +26,20 @@ $.ddMM.mm_ddDependentFields = function(params){
 		}
 	;
 	
-	//Move Dependent after Master
+	// Move Dependent after Master
 	dependentParentWithSpl
 		.$both
 		.insertAfter(masterParentWithSpl.$splitter)
 	;
 	
-	//Published status is so special
+	// Published status is so special
 	if (
 		params.masterFieldName == 'published' &&
 		params.dependentFieldName == 'pub_date'
 	){
-		//If pub date is set
+		// If pub date is set
 		if (!$.ddTools.isEmpty(theDependentField.getValue())){
-			//Check published even if date is in the future
+			// Check published even if date is in the future
 			theMasterField.$elem.prop(
 				'checked',
 				true
@@ -48,7 +48,7 @@ $.ddMM.mm_ddDependentFields = function(params){
 	}
 	
 	theMasterField.$elem.on(
-		//When value of the master will changed
+		// When value of the master will changed
 		'change',
 		tuneDependent
 	);
@@ -59,7 +59,7 @@ $.ddMM.mm_ddDependentFields = function(params){
 		'submit',
 		function(){
 			if (isDependentUsed){
-				//The page should be published but date is not filled
+				// The page should be published but date is not filled
 				if (
 					params.masterFieldName == 'published' &&
 					params.dependentFieldName == 'pub_date' &&
@@ -67,7 +67,7 @@ $.ddMM.mm_ddDependentFields = function(params){
 				){
 					theDependentField.$elem.val($j.ddMM.dateNowFormatted);
 				}
-			//Clear dependent value if it is not used
+			// Clear dependent value if it is not used
 			}else{
 				theDependentField.$elem.val('');
 			}
